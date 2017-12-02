@@ -34,7 +34,8 @@ metadata {
 		attribute "lastPress", "string"
 		attribute "batterylevel", "string"
 		attribute "lastCheckin", "string"
-        
+        attribute "lastCheckinDate", "Date"
+
     	fingerprint profileId: "0104", deviceId: "0104", inClusters: "0000, 0003", outClusters: "0000, 0004, 0003, 0006, 0008, 0005", manufacturer: "LUMI", model: "lumi.sensor_switch", deviceJoinName: "Xiaomi Button"
 
 	}
@@ -80,7 +81,10 @@ def parse(String description) {
   log.debug "Parsing '${description}'"
 //  send event for heartbeat    
   def now = new Date().format("yyyy MMM dd EEE h:mm:ss a", location.timeZone)
+  def nowDate = new Date(now).getTime()
   sendEvent(name: "lastCheckin", value: now)
+  sendEvent(name: "lastCheckinDate", value: nowDate) 
+
   
   def results = []
   if (description?.startsWith('on/off: '))
